@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vela de las 9h: documentación (v0.5.1-r1)</title>
+<style>
+:root{
+  --bg:#ffffff; --surface:#f5f6fa; --text:#1e2433; --muted:#626b7f;
+  --accent:#6d4fc2; --accent-bg:#efeafb; --border:#e1e4ec;
+  --warn-bg:#fff6df; --warn-border:#ecd596; --info-bg:#eaf2fd; --info-border:#b9d3f3;
+}
+*{box-sizing:border-box}
+html{color-scheme:light;scroll-behavior:smooth;scroll-padding-top:1rem}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:1rem;line-height:1.6}
+.page{max-width:860px;margin:0 auto;padding:2.5rem 1.25rem 3rem}
+header{padding-bottom:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.75rem}
+header h1{margin:0 0 .35rem;font-size:2rem;line-height:1.2;font-weight:700}
+header p.lead{margin:0 0 1.1rem;color:var(--muted);font-size:1.05rem}
+.meta{display:flex;flex-wrap:wrap;gap:.6rem}
+.meta div{background:var(--accent-bg);border-radius:6px;padding:.4rem .75rem;font-size:.9rem}
+.meta dt{display:inline;color:var(--muted)}
+.meta dd{display:inline;margin:0 0 0 .35rem;font-weight:600;color:var(--accent)}
+nav{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:2.25rem}
+nav h2{margin:0 0 .5rem;font-size:1rem;font-weight:600}
+nav ul{margin:0;padding:0;list-style:none;columns:2;column-gap:2rem}
+nav li{padding:.15rem 0;break-inside:avoid}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+section{padding-top:.5rem;margin-bottom:2.25rem;border-top:1px solid var(--border)}
+section:first-of-type{border-top:0}
+h2{font-size:1.5rem;line-height:1.3;margin:1.25rem 0 .75rem}
+h3{font-size:1.2rem;line-height:1.35;margin:1.6rem 0 .5rem}
+h4{font-size:1.02rem;line-height:1.4;margin:1.3rem 0 .4rem}
+p{margin:.6rem 0}
+ul,ol{padding-left:1.4rem;margin:.6rem 0}
+li{margin:.25rem 0}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-size:.88em;
+  background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.05em .35em}
+pre{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.8rem 1rem;overflow-x:auto}
+pre code{background:none;border:0;padding:0}
+.table-wrap{overflow-x:auto;margin:1rem 0;border:1px solid var(--border);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:.94rem}
+th,td{padding:.55rem .75rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+th{background:var(--surface);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+blockquote{margin:1rem 0;padding:.6rem 1rem;background:var(--warn-bg);border-left:4px solid var(--warn-border);border-radius:0 6px 6px 0}
+blockquote p{margin:.3rem 0}
+hr{border:0;border-top:1px solid var(--border);margin:1.5rem 0}
+footer{border-top:1px solid var(--border);padding-top:1rem;color:var(--muted);font-size:.9rem}
+footer p{margin:.3rem 0}
+@media (max-width:600px){
+  .page{padding:1.5rem 1rem 2rem}
+  header h1{font-size:1.6rem}
+  nav ul{columns:1}
+}
+@media print{
+  body{font-size:11pt}
+  .page{max-width:none;padding:0}
+  nav{background:none;border:1px solid #ccc}
+  .meta div{background:none;border:1px solid #ccc}
+  section{break-inside:auto}
+  h2,h3,h4{break-after:avoid}
+  .table-wrap{border:0;overflow:visible}
+  tr{break-inside:avoid}
+  a{color:inherit}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+<h1>Vela de las 9h</h1>
+<p class="lead">Documentación del indicador de TradingView escrito en Pine Script v6.</p>
+<dl class="meta">
+<div><dt>Versión del indicador</dt><dd>0.5.1</dd></div>
+<div><dt>Versión de la documentación</dt><dd>v0.5.1-r1</dd></div>
+<div><dt>Generada el</dt><dd>5 de noviembre de 2026</dd></div>
+</dl>
+</header>
+<nav aria-label="Índice">
+<h2>Contenido</h2>
+<ul>
+<li><a href="#s1">Visión general</a></li>
+<li><a href="#s2">Instalación y uso</a></li>
+<li><a href="#s3">Opciones</a></li>
+<li><a href="#s4">Reglas definidas</a></li>
+<li><a href="#s5">Estadísticas</a></li>
+<li><a href="#s6">Límites y consideraciones</a></li>
+<li><a href="#s7">Ejemplo: cómo leer la tabla</a></li>
+<li><a href="#s8">Glosario</a></li>
+<li><a href="#s9">Historial de versiones</a></li>
+</ul>
+</nav>
+<main>
+<section>
+<h2 id="s1">Visión general</h2>
+<h3>¿Qué es “Vela de las 9h”?</h3>
+<p>Es un indicador para <strong>TradingView</strong>, escrito en <strong>Pine Script v6</strong>, que se dibuja sobre el gráfico de precios. Marca una <strong>vela de 3 horas de referencia</strong> (por defecto, la que empieza a las <strong>09:00 hora de Nueva York</strong> y termina a las 12:00) y calcula estadísticas que comparan su tamaño con el de las demás velas de 3 horas.</p>
+<h3>Qué hace</h3>
+<ol>
+<li><strong>Divide cada día en 8 velas de 3 horas</strong> (00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00 y 21:00, hora de Nueva York).</li>
+<li><strong>Recuadra la vela de referencia</strong> de cada día. El recuadro se ajusta mientras la vela está viva y se detiene cuando cierra.</li>
+<li><strong>Muestra una tabla de estadísticas</strong> en la esquina superior derecha del gráfico:
+   - el recorrido de la vela de referencia,
+   - el recorrido medio de las velas de los N días anteriores,
+   - el porcentaje de días, sobre los últimos N, en que la vela de referencia fue más grande que cada una de las otras velas del día,
+   - el valor de N y los días máximos disponibles (Nmax).</li>
+<li><strong>Permite mostrar u ocultar la tabla</strong> desde las opciones.</li>
+<li><strong>Permite pintar solo los recuadros recientes</strong> (los de los últimos N días más el del día en curso).</li>
+<li><strong>Incluye un modo DEBUG</strong> que etiqueta cada vela de referencia con su número y sus puntos, y añade a la tabla las últimas 10 velas de cada tipo.</li>
+</ol>
+<h3>Cómo funciona, en resumen</h3>
+<ul>
+<li><strong>No usa las velas de 3H de TradingView.</strong> Construye sus propias velas de 3H agrupando las barras del gráfico (1 minuto, 5 minutos, 1 hora…). Así, la vela empieza siempre a la hora exacta, <strong>sea cual sea el activo</strong>.</li>
+<li>Cada barra se asigna a una de las 8 franjas del día según su hora de apertura en la zona horaria elegida.</li>
+<li>Cuando empieza una franja nueva, se <strong>cierra la anterior</strong> y se guarda su recorrido (máximo menos mínimo).</li>
+<li>Cuando empieza un día nuevo, se <strong>compara la vela de referencia con las demás velas del día que acaba de terminar</strong> y se actualizan la media y los porcentajes.</li>
+<li>En la última barra del gráfico se <strong>actualiza la tabla</strong>.</li>
+</ul>
+<h3>Qué no incluye (en esta versión)</h3>
+<ul>
+<li>Alertas.</li>
+<li>Señales de compra o venta, ni estrategia.</li>
+<li>Opción para cambiar la posición o el tamaño de la tabla.</li>
+</ul>
+</section>
+<section>
+<h2 id="s2">Instalación y uso</h2>
+<h3>Instalar el indicador</h3>
+<ol>
+<li>Abre un gráfico en TradingView.</li>
+<li>Abre el <strong>Pine Editor</strong> (panel inferior).</li>
+<li>Borra el contenido por defecto y pega el código del script (archivo <code>vela_9h.txt</code>; es texto, se abre con cualquier editor y se copia entero).</li>
+<li>Pulsa <strong>Guardar</strong> y después <strong>Añadir al gráfico</strong>.</li>
+</ol>
+<h3>Elegir el timeframe</h3>
+<p>Usa un timeframe de <strong>3 horas o menos</strong> que divida 3 horas de forma exacta: 1 minuto, 5 minutos, 15 minutos, 30 minutos o 1 hora. Con un timeframe mayor a 3H, el indicador no dibuja nada y la tabla muestra el aviso <em>“Usa un timeframe de 3H o menor”</em>.</p>
+<h3>Abrir las opciones</h3>
+<p>Haz clic en el icono de <strong>Ajustes</strong> (la rueda dentada) del indicador. Las opciones están agrupadas en <em>General</em>, <em>Referencia</em>, <em>Estadísticas</em>, <em>Debug</em> y <em>Estilo</em> (ver el apartado Opciones).</p>
+<h3>Qué verás en el gráfico</h3>
+<ul>
+<li>Un <strong>recuadro morado</strong> sobre la vela de referencia de cada día, que cubre desde su mínimo hasta su máximo y desde su apertura hasta su cierre (3 horas).</li>
+<li>Una <strong>tabla</strong> en la esquina superior derecha con las estadísticas.</li>
+</ul>
+<p>En la leyenda del gráfico el indicador aparece con el nombre corto <strong>Velas 3H</strong>.</p>
+<p>Mientras la vela de referencia está viva, el recuadro cambia de tamaño conforme se forman nuevos máximos y mínimos, y queda fijo cuando la vela cierra.</p>
+</section>
+<section>
+<h2 id="s3">Opciones</h2>
+<p>Todas las opciones se encuentran en los <strong>Ajustes</strong> del indicador.</p>
+<h3>General</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Valor por defecto</th>
+<th>Rango / valores</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Zona horaria</strong></td>
+<td><code>America/New_York</code></td>
+<td>Texto con una zona horaria IANA (por ejemplo <code>Europe/Madrid</code>)</td>
+<td>Define qué es “el día” y a qué hora empieza cada vela de 3H. Con <code>America/New_York</code> el cambio de horario de verano (EST/EDT) se aplica de forma automática</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Referencia</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Valor por defecto</th>
+<th>Valores</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vela de referencia (hora de inicio)</strong></td>
+<td><code>09:00</code></td>
+<td><code>00:00</code>, <code>03:00</code>, <code>06:00</code>, <code>09:00</code>, <code>12:00</code>, <code>15:00</code>, <code>18:00</code>, <code>21:00</code></td>
+<td>Elige cuál de las 8 velas de 3H del día se recuadra y se usa como referencia en las estadísticas</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Estadísticas</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Valor por defecto</th>
+<th>Rango</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mostrar tabla de estadísticas</strong></td>
+<td>Activada</td>
+<td>Activada / desactivada</td>
+<td>Muestra u oculta la tabla. Las estadísticas se siguen calculando aunque la tabla esté oculta</td>
+</tr>
+<tr>
+<td><strong>Días hacia atrás (N)</strong></td>
+<td><code>100</code></td>
+<td>1 – 1000</td>
+<td>Número de días anteriores (con datos) que se usan, tanto en la media de recorrido como en la comparación con el resto de velas del día</td>
+</tr>
+<tr>
+<td><strong>Pintar solo los recuadros de N+1</strong></td>
+<td>Desmarcada</td>
+<td>Marcada / desmarcada</td>
+<td>Marcada: solo se pintan los recuadros de las últimas N velas de referencia más la del día en curso (N = <em>Días hacia atrás</em>). Desmarcada: se pintan todos. Con el modo DEBUG activo, las etiquetas de los recuadros ocultos también se ocultan</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Debug</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Valor por defecto</th>
+<th>Valores</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Modo DEBUG</strong></td>
+<td>Desmarcada</td>
+<td>Marcada / desmarcada</td>
+<td>Pone una etiqueta sobre cada vela de referencia con su número y sus puntos, y añade a la tabla las últimas 10 velas de cada tipo con su media. <strong>Fuerza a mostrar la tabla</strong>, aunque “Mostrar tabla de estadísticas” esté desmarcada</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Estilo</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Valor por defecto</th>
+<th>Rango</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Color</strong></td>
+<td>Morado</td>
+<td>Cualquier color</td>
+<td>Color base del recuadro (relleno y borde)</td>
+</tr>
+<tr>
+<td><strong>Transparencia del relleno (%)</strong></td>
+<td><code>90</code></td>
+<td>0 – 100</td>
+<td>0 = relleno opaco, 100 = sin relleno</td>
+</tr>
+<tr>
+<td><strong>Grosor del borde</strong></td>
+<td><code>1</code></td>
+<td>1 – 5</td>
+<td>Grosor de la línea del recuadro, en píxeles</td>
+</tr>
+<tr>
+<td><strong>Transparencia del borde (%)</strong></td>
+<td><code>0</code></td>
+<td>0 – 100</td>
+<td>0 = borde totalmente visible, 100 = borde invisible</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Notas</h3>
+<ul>
+<li>La duración de la vela (3 horas) y la hora de la primera vela (00:00) son fijas.</li>
+<li>Cambiar la <strong>zona horaria</strong> cambia a qué hora empieza el día y, por tanto, qué velas se consideran “del mismo día”.</li>
+<li>Cambiar la <strong>vela de referencia</strong> cambia a la vez el recuadro y toda la tabla de estadísticas.</li>
+<li>Ocultar la tabla no detiene los cálculos: al volver a mostrarla, los valores están al día.</li>
+<li>Con el <strong>modo DEBUG</strong> marcado la tabla se muestra siempre, aunque la casilla de mostrarla esté desmarcada.</li>
+</ul>
+</section>
+<section>
+<h2 id="s4">Reglas definidas</h2>
+<h3>Definiciones</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Regla</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vela de 3H</strong></td>
+<td>Cada una de las 8 velas del día: 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00 y 21:00 (hora de la zona horaria elegida)</td>
+</tr>
+<tr>
+<td><strong>Día</strong></td>
+<td>Día natural en la zona horaria elegida, de 00:00 a 24:00</td>
+</tr>
+<tr>
+<td><strong>Vela de las 9h</strong></td>
+<td>La vela de 3H que empieza a las 09:00 de Nueva York (09:00–12:00). Es la referencia por defecto</td>
+</tr>
+<tr>
+<td><strong>Vela de referencia</strong></td>
+<td>La vela de 3H elegida en las opciones</td>
+</tr>
+<tr>
+<td><strong>Recorrido</strong> (o “puntos”)</td>
+<td>Tamaño de la vela con mechas incluidas: <strong>máximo menos mínimo</strong></td>
+</tr>
+<tr>
+<td><strong>n</strong></td>
+<td>Número de <strong>días</strong> de los que se tienen datos</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Reglas del recuadro</h3>
+<ul>
+<li>Se dibuja un recuadro para la vela de referencia de <strong>cada día</strong> del histórico y del día actual.</li>
+<li>El recuadro va desde la <strong>apertura</strong> hasta el <strong>cierre</strong> de la vela (3 horas) y desde su <strong>mínimo</strong> hasta su <strong>máximo</strong>.</li>
+<li>Mientras la vela está viva, el recuadro se actualiza con cada nuevo máximo o mínimo. Cuando la vela cierra, queda fijo.</li>
+<li>Estilo: color morado, borde fino y relleno con un 90 % de transparencia (todo configurable).</li>
+<li><strong>Opción “Pintar solo los recuadros de N+1”</strong> (desmarcada por defecto): si está marcada, solo se muestran los recuadros de las últimas <strong>N</strong> velas de referencia (N = días hacia atrás) más el de la <strong>vela del día en curso</strong>. Antes de que empiece la vela de referencia de hoy se muestran solo los N anteriores; el “+1” aparece cuando empieza la vela de hoy. N cuenta velas de referencia existentes, es decir, días en que la referencia tiene datos. Con el modo DEBUG activo, <strong>las etiquetas de los recuadros ocultos también se ocultan</strong>. Desmarcada, se pintan todos.</li>
+</ul>
+<h3>Reglas de construcción de las velas</h3>
+<ul>
+<li>Las velas de 3H se construyen con las barras del gráfico. Una barra pertenece a la franja en la que <strong>abre</strong>.</li>
+<li>La <strong>primera vela del historial se descarta</strong> si estaba incompleta, para no falsear las estadísticas.</li>
+<li>Una vela cuenta aunque tenga pocas barras (por ejemplo, en activos con horario limitado).</li>
+<li>El comportamiento es independiente del activo.</li>
+</ul>
+<h3>Reglas de las estadísticas</h3>
+<ul>
+<li>Solo se usan velas <strong>cerradas</strong> y días <strong>terminados</strong>.</li>
+<li>Un único parámetro, <strong>N (días hacia atrás)</strong>, controla la media y la comparación del día. Si hay menos de N días disponibles, se usan los que haya.</li>
+<li><strong>Media:</strong> se calcula en el momento en que empieza la vela de referencia, con <strong>todas las velas de 3H</strong> de los N días anteriores (sin contar el día de la propia referencia).</li>
+<li><strong>Comparación del día:</strong> al terminar cada día se compara el recorrido de la vela de referencia con el de cada una de las otras velas de ese día. Una comparación solo cuenta si <strong>existen las dos velas</strong> ese día. Los porcentajes usan los últimos N días comparables.</li>
+<li><strong>Mayor</strong> significa <strong>estrictamente mayor</strong>: un empate no cuenta como “mayor”.</li>
+<li>El <strong>día en curso</strong> no entra en los porcentajes hasta que termina.</li>
+<li>La tabla muestra los datos de la <strong>última vela de referencia</strong> del gráfico, esté viva o ya cerrada.</li>
+<li>Ocultar la tabla no detiene los cálculos.</li>
+</ul>
+<h3>Reglas del modo DEBUG</h3>
+<ul>
+<li>Desmarcado por defecto.</li>
+<li><strong>Etiquetas:</strong> solo en las velas de referencia. Cada etiqueta está sobre la parte superior de la vela, algo separada de ella para ver dónde acaba la mecha, y contiene en dos líneas el <strong>número de vela</strong> y sus <strong>puntos</strong> (recorrido). El número es correlativo desde el inicio del gráfico y cuenta solo las velas de referencia (#1, #2, #3…). La etiqueta se actualiza mientras la vela está viva y queda fija al cerrar.</li>
+<li><strong>Tabla ampliada:</strong> se añaden filas con las <strong>últimas 10 velas de cada tipo</strong> (00:00 … 21:00), sin contar el día en curso, y su <strong>media</strong> (suma ÷ número de valores disponibles, que son 10 cuando hay datos suficientes). Estos datos no dependen de N.</li>
+<li>El modo DEBUG <strong>fuerza a mostrar la tabla</strong> aunque “Mostrar tabla de estadísticas” esté desmarcada.</li>
+</ul>
+</section>
+<section>
+<h2 id="s5">Estadísticas</h2>
+<p>Las estadísticas se muestran en una <strong>tabla</strong> en la esquina superior derecha del gráfico, que se puede mostrar u ocultar desde las opciones. Se actualiza en la última barra.</p>
+<p>Salvo los datos del modo DEBUG, todas dependen de un único parámetro, <strong>N (días hacia atrás)</strong>, 100 por defecto.</p>
+<h3>1. Recorrido de la referencia</h3>
+<p>Tamaño (máximo − mínimo) de la última vela de referencia. Si la vela está viva, el valor cambia con cada nuevo máximo o mínimo; si ya cerró, muestra su valor final. Se expresa en puntos de precio del activo.</p>
+<h3>2. Media de recorrido (E-01)</h3>
+<p><strong>Qué mide:</strong> el tamaño medio de las velas de 3H de los últimos N días.</p>
+<p><strong>Cómo se calcula:</strong></p>
+<ol>
+<li>Se toman <strong>todas las velas de 3H</strong> cerradas de los <strong>N días anteriores</strong> al día de la vela de referencia (unas 8 × N velas).</li>
+<li>Se suman sus recorridos y se dividen entre el número de velas sumadas.</li>
+</ol>
+<p>Si hay menos de N días disponibles, se usan los que haya. La etiqueta de la tabla indica cuántos días se han usado: <em>“Media últimos 100 días”</em>.</p>
+<h3>3. Comparación del recorrido dentro del día (E-02)</h3>
+<p><strong>Qué mide:</strong> con qué frecuencia la vela de referencia es <strong>más grande</strong> que cada una de las otras 7 velas de 3H de su mismo día.</p>
+<p><strong>Cómo se calcula:</strong></p>
+<ol>
+<li>Al terminar cada día, se compara el recorrido de la referencia con el de cada una de las otras velas de ese día. Ese día es “comparable” si existen las dos velas.</li>
+<li>Para cada franja se toman los <strong>últimos N días comparables</strong> y se cuenta en cuántos la referencia fue estrictamente mayor.</li>
+<li>La tabla muestra, para cada una de las otras 7 franjas:</li>
+</ol>
+<p><strong>porcentaje = días en que la referencia fue mayor ÷ días usados × 100</strong></p>
+<h3>4. n y Nmax</h3>
+<ul>
+<li><strong>n = N:</strong> el valor de N configurado (por defecto, <code>n = 100</code>).</li>
+<li><strong>Nmax:</strong> el <strong>menor</strong> número de días comparables disponibles entre las 7 franjas. Es orientativo: indica hasta qué valor de N hay datos para todas las filas. Si Nmax es menor que N, los porcentajes de las franjas con menos datos se calculan con los días que haya.</li>
+</ul>
+<h3>Estructura de la tabla (13 filas)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fila</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Título: <code>Vela ref 09:00–12:00</code> (según la referencia elegida)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Recorrido de la referencia</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Media de los últimos N días</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Cabecera: <em>“Ref mayor que… (% de días)”</em></td>
+</tr>
+<tr>
+<td>5–11</td>
+<td>Una fila por cada una de las otras 7 franjas: <code>vela HH:00</code> → <code>%</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>n = N</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>Nmax = …</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Modo DEBUG: últimas 10 velas de cada tipo</h3>
+<p>Con el modo DEBUG marcado, la tabla pasa a tener <strong>3 columnas y 22 filas</strong>. Debajo de las 13 filas habituales aparece:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fila</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td>Cabecera: <em>“DEBUG: últimas 10 velas de cada tipo (sin el día en curso) · media”</em></td>
+</tr>
+<tr>
+<td>15–22</td>
+<td>Una fila por tipo de vela (<code>Vela 00:00</code> … <code>Vela 21:00</code>). Segunda columna: los recorridos de las últimas 10 velas de ese tipo, del más reciente al más antiguo y separados por <code>/</code>. Tercera columna: su media</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Media de cada fila:</strong> suma de los valores ÷ número de valores disponibles. No se cuenta el día en curso. Si faltan velas de ese tipo en algún día (huecos de cotización), se toman las 10 últimas que existan.</p>
+<p>Sirve para <strong>comprobar a mano</strong> las cifras: puedes sumar esos valores y verificar la media.</p>
+<h3>Lo que las estadísticas no son</h3>
+<p>Describen el <strong>pasado</strong>: con qué frecuencia ocurrió algo y cuánto medían las velas. <strong>No predicen</strong> lo que pasará, no indican cuánto más grande fue la referencia ni normalizan por volatilidad. No son una recomendación de inversión.</p>
+</section>
+<section>
+<h2 id="s6">Límites y consideraciones</h2>
+<h3>Timeframes</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Situación</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Timeframe de 1 minuto a 1 hora que divide 3 horas (1m, 5m, 15m, 30m, 1h)</td>
+<td>Funciona</td>
+</tr>
+<tr>
+<td>Timeframe de 3H</td>
+<td>Funciona. Las velas de referencia se construyen igualmente a partir de las barras del gráfico</td>
+</tr>
+<tr>
+<td>Timeframe que no divide 3 horas (por ejemplo, 2H)</td>
+<td>Las franjas no encajan con las barras; resultados no fiables</td>
+</tr>
+<tr>
+<td>Timeframe mayor a 3H (4H, diario…)</td>
+<td>No se dibuja nada; la tabla muestra <em>“Usa un timeframe de 3H o menor”</em></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Límites del script</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Límite</th>
+<th>Valor</th>
+<th>Efecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recuadros dibujados</td>
+<td>500</td>
+<td>TradingView permite como máximo 500; los más antiguos se eliminan solos. Con un recuadro por día, se ven unos 500 días</td>
+</tr>
+<tr>
+<td>Días hacia atrás (N)</td>
+<td>1 – 1000</td>
+<td>Rango de la opción</td>
+</tr>
+<tr>
+<td>Etiquetas del modo DEBUG</td>
+<td>500</td>
+<td>TradingView permite como máximo 500; las más antiguas desaparecen</td>
+</tr>
+<tr>
+<td>Velas de 3H por día</td>
+<td>8 (fijo)</td>
+<td>La duración y la cuadrícula no se pueden cambiar</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Datos disponibles</h3>
+<ul>
+<li>Los días usados dependen del <strong>histórico que TradingView tenga cargado</strong> en el gráfico. Cambia con el plan, el activo y el timeframe: un timeframe pequeño carga menos días que uno grande. Si N es mayor que los días disponibles, se usan los que haya.</li>
+<li>La fila <strong>Nmax</strong> indica cuántos días hay disponibles como máximo para sacar los porcentajes.</li>
+<li>El <strong>recorrido de una vela</strong> (máximo y mínimo) es el mismo en cualquier timeframe; lo que cambia es cuántos días hay disponibles.</li>
+<li>En activos con huecos de cotización (pausas, festivos, horarios limitados) algunos días no tienen todas las velas. Esos días no se comparan para esa franja, por eso Nmax puede ser menor que el total de días.</li>
+</ul>
+<h3>Consideraciones conocidas</h3>
+<ul>
+<li>Con el <strong>modo DEBUG</strong> marcado, la tabla se ensancha (3 columnas) y es más alta (22 filas); en gráficos pequeños puede tapar parte de las velas.</li>
+<li>La opción <strong>“Pintar solo los recuadros de N+1”</strong> afecta a los recuadros y, con el modo DEBUG activo, también a sus etiquetas: las etiquetas de los recuadros ocultos desaparecen con ellos.</li>
+<li><strong>Cambio de hora (horario de verano):</strong> el día del cambio, la franja que cruza las 02:00 dura 2 o 4 horas reales. El borde derecho del recuadro de la franja <strong>00:00</strong> puede quedar desfasado una hora ese día. Las demás franjas no se ven afectadas.</li>
+<li>El <strong>día en curso</strong> no cuenta en los porcentajes hasta que termina.</li>
+<li>La tabla refleja la <strong>última vela de referencia</strong> del gráfico, no necesariamente la de hoy.</li>
+<li>El indicador <strong>no genera alertas ni señales</strong>.</li>
+<li>Con la <strong>zona horaria</strong> cambiada, el título de la tabla muestra solo las horas (sin indicar la zona).</li>
+</ul>
+<h3>Estado de validación</h3>
+<p>La versión 0.3.0 compiló y mostró datos en TradingView. La versión 0.4.1 fue <strong>validada por el usuario</strong> en TradingView: compila, el número de días (<code>n</code>) es correcto y las estadísticas se muestran y <strong>no cambian</strong> entre los timeframes probados (1m, 5m, 15m, 1h y 3H). La casilla de mostrar la tabla y el aspecto del recuadro también se validaron.</p>
+<p>La versión 0.5.1, que incluye la opción de pintar solo los recuadros de N+1 y el modo DEBUG, también fue <strong>validada por el usuario</strong>: compila, los datos que se muestran son correctos y los recuadros también.</p>
+</section>
+<section>
+<h2 id="s7">Ejemplo: cómo leer la tabla</h2>
+<p>Los valores siguientes son <strong>ilustrativos</strong> (inventados para explicar el significado de cada fila); no proceden de ningún activo real.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fila</th>
+<th>Valor de ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vela ref 09:00–12:00</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Recorrido ref</td>
+<td>230,75</td>
+</tr>
+<tr>
+<td>Media últimos 100 días</td>
+<td>204,25</td>
+</tr>
+<tr>
+<td>Ref mayor que… (% de días)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>vela 00:00</td>
+<td>98 %</td>
+</tr>
+<tr>
+<td>vela 03:00</td>
+<td>95 %</td>
+</tr>
+<tr>
+<td>vela 06:00</td>
+<td>92 %</td>
+</tr>
+<tr>
+<td>vela 12:00</td>
+<td>82 %</td>
+</tr>
+<tr>
+<td>vela 15:00</td>
+<td>91 %</td>
+</tr>
+<tr>
+<td>vela 18:00</td>
+<td>95 %</td>
+</tr>
+<tr>
+<td>vela 21:00</td>
+<td>97 %</td>
+</tr>
+<tr>
+<td>n = 100</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Nmax = 1201</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Cómo se interpreta</h3>
+<ul>
+<li><strong>Recorrido ref (230,75):</strong> la vela de 09:00 a 12:00 más reciente mide 230,75 puntos de máximo a mínimo.</li>
+<li><strong>Media últimos 100 días (204,25):</strong> las velas de 3H de los 100 días anteriores midieron de media 204,25 puntos. Esa media incluye todas las franjas, también las nocturnas, que suelen ser más tranquilas; por eso la referencia puede quedar por encima.</li>
+<li><strong>vela 00:00 → 98 %:</strong> en el 98 % de los últimos 100 días comparables, la vela de las 9h tuvo más recorrido que la de las 00:00.</li>
+<li><strong>vela 12:00 → 82 %:</strong> es el porcentaje más bajo del ejemplo, es decir, la vela de las 12h es la que más compite con la de referencia.</li>
+<li><strong>n = 100:</strong> los porcentajes se calculan con los últimos 100 días comparables (el N configurado).</li>
+<li><strong>Nmax = 1201:</strong> como máximo hay 1.201 días con datos para la franja con menos histórico. Puedes subir N hasta ese valor y todas las filas seguirán teniendo datos. Si Nmax fuera menor que N, algunas filas usarían menos días de los configurados.</li>
+</ul>
+<h3>Qué conclusión se puede sacar y cuál no</h3>
+<p>Se puede decir que, en el histórico analizado, la vela de referencia suele ser la más grande del día. <strong>No</strong> se puede deducir cuánto más grande ni lo que ocurrirá en el futuro.</p>
+</section>
+<section>
+<h2 id="s8">Glosario</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vela de 3H</strong></td>
+<td>Vela que agrupa 3 horas de precio. En este indicador se construye con las barras del gráfico</td>
+</tr>
+<tr>
+<td><strong>Franja</strong></td>
+<td>Cada una de las 8 velas de 3H del día (00:00, 03:00 … 21:00)</td>
+</tr>
+<tr>
+<td><strong>Vela de las 9h</strong></td>
+<td>La vela de 3H que empieza a las 09:00 hora de Nueva York (09:00–12:00)</td>
+</tr>
+<tr>
+<td><strong>Vela de referencia</strong></td>
+<td>Vela de 3H elegida en las opciones; se recuadra y se compara con las demás</td>
+</tr>
+<tr>
+<td><strong>Recorrido (puntos)</strong></td>
+<td>Máximo menos mínimo de la vela, mechas incluidas</td>
+</tr>
+<tr>
+<td><strong>Media de recorrido</strong></td>
+<td>Promedio del recorrido de todas las velas de 3H de los N días anteriores</td>
+</tr>
+<tr>
+<td><strong>N / n</strong></td>
+<td>Número de días hacia atrás configurado (100 por defecto), usado en la media y en la comparación del día</td>
+</tr>
+<tr>
+<td><strong>Nmax</strong></td>
+<td>Menor número de días comparables disponibles entre las 7 franjas</td>
+</tr>
+<tr>
+<td><strong>Día</strong></td>
+<td>Día natural (00:00–24:00) en la zona horaria elegida</td>
+</tr>
+<tr>
+<td><strong>Zona horaria IANA</strong></td>
+<td>Nombre estándar de zona horaria, como <code>America/New_York</code> o <code>Europe/Madrid</code></td>
+</tr>
+<tr>
+<td><strong>EST / EDT</strong></td>
+<td>Hora estándar y hora de verano de Nueva York (UTC−5 / UTC−4)</td>
+</tr>
+<tr>
+<td><strong>N+1</strong></td>
+<td>Los N días configurados más el día en curso. Con la opción de pintar solo los recuadros de N+1, es el número de recuadros que se muestran</td>
+</tr>
+<tr>
+<td><strong>Modo DEBUG</strong></td>
+<td>Modo de comprobación: etiqueta las velas de referencia y muestra en la tabla las últimas 10 velas de cada tipo y su media</td>
+</tr>
+<tr>
+<td><strong>Timeframe</strong></td>
+<td>Duración de cada barra del gráfico (1m, 5m, 1h…)</td>
+</tr>
+<tr>
+<td><strong>Pine Script</strong></td>
+<td>Lenguaje de programación de indicadores de TradingView</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section>
+<h2 id="s9">Historial de versiones</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Versión</th>
+<th>Novedades</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0.5.1</strong></td>
+<td>Con la opción de pintar solo los recuadros de N+1 y el modo DEBUG activos, las etiquetas de los recuadros ocultos también se ocultan</td>
+</tr>
+<tr>
+<td><strong>0.5.0</strong></td>
+<td>Opción para pintar solo los recuadros de N+1. Modo DEBUG: etiquetas en las velas de referencia y filas extra en la tabla con las últimas 10 velas de cada tipo y su media. El archivo de código pasa a ser <code>.txt</code></td>
+</tr>
+<tr>
+<td><strong>0.4.1</strong></td>
+<td>El máximo de «Días hacia atrás (N)» baja de 2000 a 1000 días</td>
+</tr>
+<tr>
+<td><strong>0.4.0</strong></td>
+<td>Opción para mostrar u ocultar la tabla. Un único parámetro N en <strong>días</strong> (100 por defecto) para la media y la comparación del día. La media usa todas las velas de los N días anteriores y los porcentajes, los últimos N días comparables. La tabla incluye las filas <code>n = N</code> y <code>Nmax</code> y ya no muestra <code>(n=…)</code> en cada fila</td>
+</tr>
+<tr>
+<td><strong>0.3.1</strong></td>
+<td>El nombre corto del indicador en el gráfico pasa de «V9h» a «Velas 3H». No cambia el cálculo ni el dibujo</td>
+</tr>
+<tr>
+<td><strong>0.3.0</strong></td>
+<td>Vela de referencia seleccionable entre las 8 velas de 3H del día. Tabla de estadísticas con recorrido, media de las N velas anteriores y porcentaje de días en que la referencia es mayor que cada otra vela del día. Aviso si el timeframe es mayor a 3H</td>
+</tr>
+<tr>
+<td><strong>0.2.0</strong></td>
+<td>Recuadro de la vela de 3H de las 9h NY, con color, transparencia y grosor configurables</td>
+</tr>
+<tr>
+<td><strong>0.1.1</strong></td>
+<td>La zona horaria pasa a ser la de Nueva York</td>
+</tr>
+<tr>
+<td><strong>0.1.0</strong></td>
+<td>Versión inicial: resaltado provisional de la barra de las 9h</td>
+</tr>
+</tbody>
+</table></div>
+<p>Las versiones anteriores a la 0.3.0 fueron versiones de desarrollo del propio proyecto.</p>
+</section>
+</main>
+<footer>
+<p>Documentación v0.5.1-r1, que describe la versión 0.5.1 del indicador.</p>
+<p>Esta documentación es informativa. Las estadísticas describen el pasado y no son asesoramiento financiero.</p>
+</footer>
+</div>
+</body>
+</html>
